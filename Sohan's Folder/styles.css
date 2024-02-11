@@ -1,0 +1,42 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0e8d9; /* Soft background color */
+    font-family: 'Arial', sans-serif; /* Applying a font */
+}
+
+.center-box {
+    width: 50%; /* Adjust the size as needed */
+    padding: 40px;
+    background-color: #ffffff;
+    border: 2px solid #ccc; /* Subtle border */
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1); /* Soft shadow for depth */
+    text-align: center;
+    border-radius: 10px; /* Rounded corners for the box */
+    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth transitions for hover effects */
+}
+
+.center-box:hover {
+    transform: translateY(-10px); /* Slightly raise the box on hover */
+    box-shadow: 0 12px 24px rgba(0,0,0,0.2); /* Enhance shadow on hover */
+}
+
+.center-box p {
+    color: #333; /* Dark gray color for the text */
+    font-size: 20px; /* Larger font size */
+    line-height: 1.5; /* Space out lines of text */
+    margin: 0; /* Remove default margin */
+}
+
+/* Additional style for the text */
+.center-box p:first-child {
+    margin-top: 0;
+    font-weight: bold; /* Make the first line bold */
+}
+
+.center-box p:last-child {
+    margin-bottom: 0;
+}
