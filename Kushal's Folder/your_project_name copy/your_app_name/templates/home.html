@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enser</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/responsive-style.css">
+    <!-- Favicon -->
+    <link rel="icon" type="image/webp" href="image/Favicon_logo.webp">
+    <!-- Custom JavaScript -->
+    <script src="main.js"></script>
+    <!-- Bootstrap JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+        /* Add your custom CSS styles here */
+    </style>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offsets="75">
+
+    <!-- Navbar Section -->
+    <header class="headerbar header-scrolled">
+        <nav class="navbar navbar-expand-lg ">
+            <!-- Navbar Brand -->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-2">
+                        <a class="navbar-brand" href="#">
+                            <img src="image/logo.png" class="img-fluid" />
+                        </a>
+                    </div>
+                    <!-- Navbar Toggler -->
+                    <div class="offset-md-5 col-md-5">
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                            <i class="fas fa-stream navbar-toggler-icon"></i>
+                        </button>
+                        <!-- Navbar Links -->
+                        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                            <ul class="navbar-nav menu-navbar d-flex align-items-center">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="#home">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#about">About</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#contact">Contact</a>
+                                </li>
+                                <li class="nav-item">
+                                    <!-- Login Button within list for alignment -->
+                                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#loginModal" 
+id="btnLogin-popup">Login</a>
+                                </li>
+                                <li class="nav-item">
+                                    <!-- Registration Button within list for alignment -->
+                                    <a class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#registrationModal" 
+id="btnRegistration-popup">Register</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Banner section -->
+    <section id="home" class="banner_wrapper pt-5 mt-5">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="offset-1 col-5">
+                    <img src="image/Home-banner.png" class="img-fluid" />
+                </div>
+                <div class="offset-1 col-4 offset-1 text-padding-top">
+                    <div class="row align-items-center">
+                        <h1><span>Real Projects</span></h1>
+                        <h2>To connect the world</h2>
+                        <p> Enser, a groundbreaking and forward-thinking platform, emerges as a pioneer in the field of
+                            service learning.
+                            It offering an unparalleled and transformative experience within the dynamic realm of
+                            real-world engineering projects.
+                            Functioning as a dynamic and pivotal bridge,
+                            Enser seamlessly connects students, professors, and the wider engineering community,
+                            fostering collaboration, knowledge exchange, and skill development.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal fade" id="loginModal" tabindex="-1" aria-labelledby="loginModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="loginModalLabel">Login</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <!-- Role Selection -->
+                        <div class="mb-3">
+                            <label for="loginRole" class="form-label">Role</label>
+                            <select class="form-select" id="loginRole" required>
+                                <option value="">Choose Role</option>
+                                <option value="Student">Student</option>
+                                <option value="Professor">Professor</option>
+                                <option value="Community">Community</option>
+                            </select>
+                        </div>
+
+                        <!-- Email Input -->
+                        <div class="mb-3">
+                            <label for="loginEmail" class="form-label">Email address</label>
+                            <input type="email" class="form-control" id="loginEmail" placeholder="name@example.com" required>
+                        </div>
+
+                        <!-- Password Input -->
+                        <div class="mb-3">
+                            <label for="loginPassword" class="form-label">Password</label>
+                            <input type="password" class="form-control" id="loginPassword" required>
+                        </div>
+
+                        <!-- Terms and Conditions Checkbox -->
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="loginTermsAndConditions">
+                            <label class="form-check-label" for="loginTermsAndConditions">I agree to the terms and 
+conditions</label>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="button" class="btn btn-primary" onclick="login()">Login</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Registration Modal -->
+    <div class="modal fade" id="registrationModal" tabindex="-1" aria-labelledby="registrationModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="registrationModalLabel">Registration</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="registrationForm">
+                        <!-- Role, First Name, and Last Name in one line -->
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="registrationRole" class="form-label">Role</label>
+                                <select class="form-select" id="registrationRole" required>
+                                    <option value="">Select your role</option>
+                                    <option value="Professor">Professor</option>
+                                    <option value="Student">Student</option>
+                                    <option value="Community">Community</option>
+                                </select>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="registrationFirstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="registrationFirstName" required>
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="registrationLastName" class="form-label">Last Name</label>
+                                <input type="text" class="form-control" id="registrationLastName" required>
+                            </div>
+                        </div>
+
+                        <!-- Username and Email in one line -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="registrationUsername" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="registrationUsername" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registrationEmail" class="form-label">Email address</label>
+                                <input type="email" class="form-control" id="registrationEmail" required>
+                            </div>
+                        </div>
+
+                        <!-- Password and Confirm Password in one line -->
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="registrationPassword" class="form-label">Password</label>
+                                <input type="password" class="form-control" id="registrationPassword" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="registrationConfirmPassword" class="form-label">Confirm Password</label>
+                                <input type="password" class="form-control" id="registrationConfirmPassword" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="termsAndConditions">
+                            <label class="form-check-label" for="termsAndConditions">I agree to the terms and 
+conditions</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Register</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Function for Role-based Redirection -->
+    <script>
+        function login() {
+            // Get the selected role
+            var selectedRole = document.getElementById("loginRole").value;
+
+            // Redirect based on the selected role
+            switch (selectedRole) {
+                case "Student":
+                    window.location.href = "student_dashboard.html"; // Redirect to student dashboard
+                    break;
+                case "Professor":
+                    window.location.href = "professor_dashboard.html"; // Redirect to professor dashboard
+                    break;
+                case "Community":
+                    window.location.href = "community_dashboard.html"; // Redirect to community dashboard
+                    break;
+                default:
+                    // Handle the case when no role is selected
+                    alert("Please select a role.");
+                    break;
+            }
+        }
+    </script>
+
+</body>
+
+</html>
+
