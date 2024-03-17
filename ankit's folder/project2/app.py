@@ -22,7 +22,8 @@ def home():
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
     if request.method == 'POST':
-        hashed_password = generate_password_hash(request.form['password'], method='sha256')
+        hashed_password = generate_password_hash(request.form['password'])
+
         new_user = User(
             username=request.form['username'],
             email=request.form['email'],
@@ -41,7 +42,7 @@ def login():
         if user and check_password_hash(user.password_hash, request.form['password']):
             session['username'] = user.username
             return redirect(url_for('student'))
-        return '<div>Invalid username or password</div>'
+        return render_template('login.html', error='Invalid username or password')
     return render_template('login.html')
 
 @app.route('/student')
@@ -54,3 +55,4 @@ if __name__ == '__main__':
     with app.app_context():
         db.create_all()
     app.run(debug=True)
+
