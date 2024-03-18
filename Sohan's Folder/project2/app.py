@@ -31,9 +31,7 @@ def registration():
         email = request.form.get('registrationEmail')
         password = request.form.get('registrationPassword')
 
-        # Hash the password without explicitly specifying the method
         hashed_password = generate_password_hash(password)
-
         new_user = Users(role=registrationRole, first_name=firstName, last_name=lastName, 
                          username=username, email=email, password=hashed_password)
         db.session.add(new_user)
@@ -50,7 +48,7 @@ def login():
         password = request.form.get('password')
 
         user = Users.query.filter_by(username=username).first()
-        
+
         if user and check_password_hash(user.password, password):
             session['role'] = user.role
             return redirect(url_for('dashboard', role=user.role))
@@ -66,6 +64,13 @@ def dashboard(role):
         flash('Please log in to access this dashboard.')
         return redirect(url_for('login'))
     return render_template(f'{role.lower()}.html')
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been successfully logged out.')
+    return redirect(url_for('home'))
 
 if __name__ == '__main__':
     app.run(debug=True)
