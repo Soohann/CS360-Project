@@ -30,17 +30,21 @@
                             <i class="fa-solid fa-file-lines pe-2"></i> Upload Projects
                         </a>
                     </li>
+
+                    <li class="sidebar-item">
+                        <a href="#" class="sidebar-link" data-target="uploadedProjects">
+                            <i class="fa-solid fa-cloud-upload pe-2"></i> Uploaded Projects
+                        </a>
+                    </li>
+
                     <li class="sidebar-item">
                         <a href="#" class="sidebar-link" data-target="professor">
                             <i class="fa-regular fa-user pe-2"></i> Feedback
                         </a>
                     </li>
-                    <li class="sidebar-item">
-                        <a href="#" class="sidebar-link" data-target="logout">
-                            <i class=""></i> Logout
-                        </a>
-                    </li>
-
+                    <a href="/logout" class="button" id="logoutLink">
+                        <i class="fa-solid fa-right-from-bracket pe-2"></i> Logout
+                    </a>
                 </ul>
             </div>
         </aside>
@@ -49,6 +53,12 @@
                 <button class="btn" id="sidebar-toggle" type="button">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+                <div class="ms-auto">
+                    <span class="navbar-text">
+                        <i class="fa-solid fa-user"></i> Welcome, <span id="userFirstName">{{ first_name }}</span> <span id="userLastName">{{ last_name }}</span>
+                    </span>
+                </div>
+                           
             </nav>
             <main class="content px-3 py-2">
                 <div class="container-fluid">
@@ -71,26 +81,55 @@
                     </div>
                     <div id="projects" class="content-section" style="display:none; background-color: lightblue">
                         <div class="card">
+                          <div class="container">
+                            <h2>Upload Projects</h2>
+                            <p class="title">Upload your latest projects.</p>
+                      
+                            <!-- Project Title -->
+                            <div class="form-group">
+                              <label for="projectTitle">Project Title:</label>
+                              <input type="text" id="projectTitle" name="projectTitle" class="form-control" placeholder="Enter project title" required>
+                            </div>
+                      
+                            <!-- Project Description -->
+                            <div class="form-group">
+                              <label for="projectDescription">Project Description:</label>
+                              <textarea id="projectDescription" name="projectDescription" rows="4" cols="50" maxlength="1200" class="form-control" placeholder="Describe your project (up to 200 words)" style="width: 100%;" required></textarea>
+                            </div>
+                      
+                            <p><button class="button" data-bs-toggle="modal" data-bs-target="#projectsModal" style="background-color: blue; color: white;">Upload</button></p>
+
+                          </div>
+                        </div>
+                      </div>
+                      
+                    <div id="uploadedProjects" class="content-section" style="display:none; background-color: lightblue">
+                        <div class="card">
                             <div class="container">
                                 <h2>Uploaded Projects</h2>
-                                <p class="title">Upload your latest projects.</p>
-                                <p>Click upload to upload the new projects.</p>
-                                <p><button class="button" data-bs-toggle="modal"
-                                        data-bs-target="#projectsModal">Upload</button></p>
-                            </div>
+                                <p class="title">Already Uploaded your projects.</p>
+                                
+                              </div>
+                              
                         </div>
                     </div>
+
+
+
                     <div id="professor" class="content-section" style="display:none;">
                         <div class="card">
                             <div class="container">
                                 <h2>Feedback</h2>
-                                <p class="title">Choose a Project to feedback.</p>
-                                <p>Click view to see completed project.</p>
-                                <p><button class="button" data-bs-toggle="modal"
-                                        data-bs-target="#professorsModal">View</button></p>
+                                <p class="title">Project feedback.</p>
+                                <form class="form-inline">
+                                    <label for="feedbackDemo1" class="mr-2">Demo project 1:</label>
+                                    <textarea id="feedbackDemo1" name="feedbackDemo1" rows="2" cols="30" maxlength="300" class="form-control mr-2" placeholder="Enter feedback (up to 50 words)" required></textarea>
+                                    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+                                </form>
                             </div>
                         </div>
                     </div>
+                    
                 </div>
             </main>
             <a href="#" class="theme-toggle">
@@ -100,73 +139,25 @@
         </div>
     </div>
 <!-- //////////////////////////////////// -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="static/js/script.js"></script>
+    <script>
+        document.querySelectorAll('.sidebar-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('data-target');
+                const targetElement = document.getElementById(targetId);
 
+                // Hide all content sections
+                document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
 
-    <div class="modal fade" id="uploadProjectModal" tabindex="-1" aria-labelledby="uploadProjectModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="uploadProjectModalLabel">Upload New Project</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <form id="projectUploadForm">
-                    <div class="modal-body">
-                        <!-- Input for project title -->
-                        <div class="mb-3">
-                            <label for="projectTitle" class="form-label">Project Title</label>
-                            <input type="text" class="form-control" id="projectTitle" name="projectTitle" required>
-                        </div>
-    
-                        <!-- Medium-sized textarea for project description -->
-                        <div class="mb-3">
-                            <label for="projectDescription" class="form-label">Project Description</label>
-                            <textarea class="form-control" id="projectDescription" name="projectDescription" rows="3" required style="height: auto;"></textarea>
-                        </div>
-
-                        2
-    
-                        <!-- File input for project files -->
-                        <div class="mb-3">
-                            <label for="projectFile" class="form-label">Upload Project File</label>
-                            <input type="file" class="form-control" id="projectFile" name="projectFile" required>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <!-- Submit button for form -->
-                        <button type="submit" class="btn btn-primary">Upload Project</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-    
-    <!-- Projects Modal -->
-<div class="modal fade" id="projectsFeedbackModal" tabindex="-1" aria-labelledby="projectsFeedbackModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="projectsFeedbackModalLabel">Projects</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <!-- Detailed list of projects -->
-                <div class="list-group">
-                    <!-- Project Item -->
-                    <div class="list-group-item">
-                        <div class="d-flex w-100 justify-content-between">
-                            <h5 class="mb-1">Project Title</h5>
-                        </div>
-                        <p class="mb-1">Project Description...</p>
-                        <!-- Feedback Button -->
-                        <button class="btn btn-primary mt-2" onclick="toggleFeedbackBox('feedbackBox1')">Leave Feedback</button>
-                        <!-- Feedback Text Box (Initially Hidden) -->
-                        <textarea id="feedbackBox1" class="form-control mt-2" style="display:none;" placeholder="Enter feedback here..."></textarea>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+                // Show the targeted content section
+                if(targetElement) {
+                    targetElement.style.display = 'block';
+                }
+            });
+        });
+    </script> 
 
 
     

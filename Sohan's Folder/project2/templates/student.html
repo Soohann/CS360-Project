@@ -34,8 +34,8 @@
                      </a>
                   </li>
                   <li class="sidebar-item">
-                    <a href="/logout" class="sidebar-link">
-                    <i class="fa-solid fa-right-from-bracket pe-2"></i> Logout
+                     <a href="/logout" class="button" id="logoutLink">
+                        <i class="fa-solid fa-right-from-bracket pe-2"></i> Logout
                     </a>
                  </li>
                </ul>
@@ -46,6 +46,11 @@
                <button class="btn" id="sidebar-toggle" type="button">
                <span class="navbar-toggler-icon"></span>
                </button>
+               <div class="ms-auto">
+                  <span class="navbar-text">
+                      <i class="fa-solid fa-user"></i> Welcome, <span id="userFirstName">{{ first_name }}</span> <span id="userLastName">{{ last_name }}</span>
+                  </span>
+              </div>
             </nav>
             <main class="content px-3 py-2">
                <div class="container-fluid">
@@ -59,9 +64,8 @@
                      <div class="card">
                         <div class="container">
                            <h2>Uploaded Projects</h2>
-                           <p class="title">Explore our latest projects.</p>
-                           <p>Click view to see the available projects.</p>
-                           <p><button class="button" data-bs-toggle="modal" data-bs-target="#projectsModal">View</button></p>
+                           <p class="title">Explore latest projects.</p>
+                           
                         </div>
                      </div>
                   </div>
@@ -70,8 +74,7 @@
                         <div class="container">
                            <h2>Professors</h2>
                            <p class="title">Choose your own Professor.</p>
-                           <p>Click view to get Professor's information.</p>
-                           <p><button class="button" data-bs-toggle="modal" data-bs-target="#professorsModal">View</button></p>
+
                         </div>
                      </div>
                   </div>
@@ -83,97 +86,8 @@
             </a>
          </div>
       </div>
-      <!-- Projects Modal -->
-      <div class="modal fade" id="projectsModal" tabindex="-1" aria-labelledby="projectsModalLabel" aria-hidden="true">
-         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="projectsModalLabel">Uploaded Projects</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <!-- Detailed list of projects with titles and syllabuses -->
-                  <div class="list-group">
-                     <a href="#" class="list-group-item list-group-item-action" aria-current="true">
-                        <div class="d-flex w-100 justify-content-between">
-                           <h5 class="mb-1">NoDD</h5>
-                        </div>
-                        <p class="mb-1"><strong>Description:</strong> In this project, you will design a functional dependency tutoring engine using which students
-                           will be able to answer questions on functional dependencies. There are two articles that can be used as
-                           references that include substantial details.
-                        </p>
-                        <button class="btn btn-primary mt-2">Request to do this project</button>
-                        <button class="btn btn-danger mt-2 ms-2">Delete Project</button>
-                     </a>
-                     <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                           <h5 class="mb-1">Pro Track</h5>
-                        </div>
-                        <p class="mb-1"><strong>Description:</strong> In this project, you will design a database project management system using which students and
-                           instructors will be able to design, manage and coordinate class projects to stay on track. There is a published
-                           article on ProTrack at IEEE ICALT 2023 that can be used as a reference that includes substantial details.
-                        </p>
-                        <button class="btn btn-primary mt-2">Request to do this project</button>
-                        <button class="btn btn-danger mt-2 ms-2">Delete Project</button>
-                     </a>
-                     <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                           <h5 class="mb-1">Enser</h5>
-                        </div>
-                        <p class="mb-1"><strong>Description:</strong> In this project, you will design a service learning collaboratory using which students and
-                           instructors will be able to design, manage and coordinate a socially inspired project for a student to take for
-                           credit. The available projects will be contributed by stakeholders in the community, and they will be able to
-                           grade and offer feedback on the quality of the completed projects. There is a published article on EnSer at
-                           IEEE ICALT 2023 that can be used as a reference that includes substantial details. A sample EnSer project is
-                           described below. If you have a useful project that will benefit the community, please talk to me..
-                        </p>
-                        <button class="btn btn-primary mt-2">Request to do this project</button>
-                        <button class="btn btn-danger mt-2 ms-2">Delete Project</button>
-                     </a>
-                     <!-- Add more projects here -->
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
-      <!-- Professors Modal -->
-      <div class="modal fade" id="professorsModal" tabindex="-1" aria-labelledby="professorsModalLabel" aria-hidden="true">
-         <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-               <div class="modal-header">
-                  <h5 class="modal-title" id="professorsModalLabel">Professors</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-               </div>
-               <div class="modal-body">
-                  <!-- Detailed list of professors including name, email, and faculty -->
-                  <div class="list-group">
-                     <a href="#" class="list-group-item list-group-item-action" aria-current="true">
-                        <div class="d-flex w-100 justify-content-between">
-                           <h5 class="mb-1">Phillip Mead</h5>
-                           <small>pmead@uidaho.edu</small>
-                        </div>
-                        <p class="mb-1">Faculty of Art and Architecture.</p>
-                     </a>
-                     <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                           <h5 class="mb-1">Dr.Hasan Jamil</h5>
-                           <small>jamil@uidaho.edu</small>
-                        </div>
-                        <p class="mb-1">Faculty of Computer Science</p>
-                     </a>
-                     <a href="#" class="list-group-item list-group-item-action">
-                        <div class="d-flex w-100 justify-content-between">
-                           <h5 class="mb-1">Dr.Joules Beestom</h5>
-                           <small>jbeeston@uidaho.edu</small>
-                        </div>
-                        <p class="mb-1">Faculty of Computer Science</p>
-                     </a>
-                     <!-- Add more professors here -->
-                  </div>
-               </div>
-            </div>
-         </div>
-      </div>
+      
+      
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
       <script src="static/js/script.js"></script>
       <script>

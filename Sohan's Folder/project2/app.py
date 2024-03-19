@@ -32,6 +32,7 @@ def registration():
         password = request.form.get('registrationPassword')
 
         hashed_password = generate_password_hash(password)
+
         new_user = Users(role=registrationRole, first_name=firstName, last_name=lastName, 
                          username=username, email=email, password=hashed_password)
         db.session.add(new_user)
@@ -46,16 +47,19 @@ def login():
     if request.method == 'POST':
         username = request.form.get('username')
         password = request.form.get('password')
+        role = request.form.get('role')
 
         user = Users.query.filter_by(username=username).first()
-
-        if user and check_password_hash(user.password, password):
+        
+        if user and check_password_hash(user.password, password) and user.role == role:
             session['role'] = user.role
+            session['username'] = user.username
             return redirect(url_for('dashboard', role=user.role))
-        flash('Invalid username or password. Please try again.')
+        flash('Invalid credentials or role mismatch. Please try again.')
         return redirect(url_for('login'))
 
     return render_template('login.html')
+
 
 @app.route('/<role>')
 def dashboard(role):
@@ -63,14 +67,27 @@ def dashboard(role):
     if 'role' not in session or session.get('role') != role or role not in valid_roles:
         flash('Please log in to access this dashboard.')
         return redirect(url_for('login'))
-    return render_template(f'{role.lower()}.html')
+    username = session.get('username')
+    if not username:
+        flash('An error occurred. Please log in again.')
+        return redirect(url_for('login'))
+
+    # Fetch user details directly from the database
+    user = Users.query.filter_by(username=username).first()
+    if not user:
+        flash('User not found. Please log in again.')
+        return redirect(url_for('login'))
+
+    # Pass the user's name to the template
+    return render_template(f'{role.lower()}.html', first_name=user.first_name, last_name=user.last_name)
 
 
 @app.route('/logout')
 def logout():
     session.clear()
     flash('You have been successfully logged out.')
-    return redirect(url_for('home'))
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
+
