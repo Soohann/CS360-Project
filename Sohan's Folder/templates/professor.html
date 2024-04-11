@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Professor Dashboard</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+   <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="/static/css/newcss.css">
+</head>
+
+<body>
+   <div class="wrapper">
+      <aside id="sidebar" class="js-sidebar">
+         <div class="h-100">
+            <div class="sidebar-logo">
+               <a href="#">Enser</a>
+            </div>
+            <ul class="sidebar-nav">
+               <li class="sidebar-header">Elements</li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="dashboard">
+                     <i class="fa-solid fa-list pe-2"></i> Dashboard
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="Notification">
+                     <i class="fa-solid fa-file-lines pe-2"></i> Notification
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="Submissionapproval">
+                     <i class="fa-regular fa-user pe-2"></i> Submission approval
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="/logout" class="button" id="logoutLink">
+                     <i class="fa-solid fa-right-from-bracket pe-2"></i> Logout
+                  </a>
+               </li>
+            </ul>
+         </div>
+      </aside>
+      <div class="main">
+         <nav class="navbar navbar-expand-lg px-3 border-bottom">
+            <button class="btn" id="sidebar-toggle" type="button">
+               <span class="navbar-toggler-icon"></span>
+            </button>
+         </nav>
+         <main class="content px-3 py-2">
+            <div class="container-fluid">
+               <div id="dashboard" class="content-section">
+                  <h4>Professor Dashboard</h4>
+                  <p>Welcome to the Professor Dashboard.</p>
+                  <p><button class="button" id="dashboardViewBtn">View</button></p>
+               </div>
+               <div id="Notification" class="content-section" style="display:none;">
+                  <div class="card">
+                     <div class="container">
+                        <h2>Notifications</h2>
+                        <p class="title">See the students requests for project.</p>
+                        <p>Click view to see request information.</p>
+                        <p><button class="button" data-bs-toggle="modal"
+                              data-bs-target="#NotificationModal">View</button></p>
+                     </div>
+                  </div>
+               </div>
+               <div id="Submissionapproval" class="content-section" style="display:none;">
+                  <div class="card">
+                     <div class="container">
+                        <h2>Review the project Here</h2>
+                        <p class="title"> You can accept or reject the project completion </p>
+                        <p>Click view to see request information.</p>
+                        <p><button class="button" data-bs-toggle="modal"
+                              data-bs-target="#SubmissionapprovalModal">View</button></p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div id="syllabusContainer"></div>
+         </main>
+         <a href="#" class="theme-toggle">
+            <i class="fa-regular fa-moon"></i>
+            <i class="fa-regular fa-sun"></i>
+         </a>
+      </div>
+   </div>
+   <!-- Notification Modal -->
+   <div class="modal fade" id="NotificationModal" tabindex="-1" aria-labelledby="NotificationModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="NotificationModalLabel">Request from students</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="list-group" id="requestList">
+                  <!-- Student project requests will be loaded here dynamically -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   </div>
+
+   <!-- Submission Approval Modal -->
+   <div class="modal fade" id="SubmissionapprovalModal" tabindex="-1" aria-labelledby="SubmissionapprovalModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="SubmissionapprovalModalLabel">Submission Approval</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="list-group" id="approvalList">
+                  <!-- Project submission approvals will be loaded here dynamically -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="/static/js/script.js"></script>
+
+   <script>
+      // Handles the click event on sidebar links to display corresponding content sections
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+         link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
+            // Show the targeted content section
+            if (targetElement) {
+               targetElement.style.display = 'block';
+            }
+         });
+      });
+      // View button for Dashboard - modified to load and display the syllabus
+      document.getElementById('dashboardViewBtn').addEventListener('click', function () {
+         loadAndDisplaySyllabus(); // Call to load and display the syllabus
+      });
+      // Fetches project requests and dynamically populates them on the page
+      function loadProjectRequests() {
+         fetch('/get_project_requests')
+            .then(response => response.json())
+            .then(data => {
+               const requestList = document.getElementById('requestList');
+               requestList.innerHTML = ''; // Clear existing content
+               data.forEach(request => {
+                  const requestItem = document.createElement('div');
+                  requestItem.classList.add('list-group-item');
+                  requestItem.innerHTML = `
+<div class="d-flex w-100 justify-content-between">
+<h5 class="mb-1">${request.first_name} ${request.last_name}</h5>
+<small>Project: ${request.project_title}</small>
+</div>
+<p class="mb-1">Description: ${request.description}</p>
+<button class="btn btn-primary mt-2" onclick="acceptRequest(${request.request_id})">Accept</button>
+<button class="btn btn-danger mt-2 ms-2" onclick="rejectRequest(${request.request_id})">Reject</button>
+`;
+                  requestList.appendChild(requestItem);
+               });
+            })
+            .catch(error => console.error('Error loading requests:', error));
+      }
+      // Handles the accept action for a project request
+      function acceptRequest(requestId) {
+         fetch(`/accept_project_request/${requestId}`, {
+            method: 'POST',
+            credentials: 'include' // Include session cookies
+         })
+            .then(response => response.json())
+            .then(data => {
+               alert(data.message || 'Request accepted successfully');
+               loadProjectRequests(); // Refresh the list of project requests
+            })
+            .catch(error => {
+               console.error('Error:', error);
+               alert('Error accepting request: ' + error.message);
+            });
+      }
+      // Function to load and display syllabuses directly in the dashboard
+      function loadAndDisplaySyllabus() {
+         fetch('/get_syllabuses')
+            .then(response => {
+               if (!response.ok) {
+                  throw new Error('Failed to fetch syllabuses. Server responded with ' + response.status);
+               }
+               return response.json();
+            })
+            .then(data => {
+               console.log("Fetched syllabus data:", data); // Debugging: log fetched data
+               const syllabusContainer = document.getElementById('syllabusContainer');
+               if (!syllabusContainer) {
+                  console.error('syllabusContainer element not found');
+                  return;
+               }
+               syllabusContainer.innerHTML = ''; // Clear previous content
+               syllabusContainer.style.display = 'block'; // Ensure visibility
+               if (data && data.length > 0) {
+                  data.forEach(syllabus => {
+                     const syllabusElement = document.createElement('div');
+                     syllabusElement.className = 'syllabus-entry';
+                     syllabusElement.innerHTML = `
+<h5>${syllabus.project_title}</h5>
+<p>${syllabus.syllabus_content}</p>
+`;
+                     const syllabusContainer = document.getElementById('syllabusContainer');
+                     syllabusContainer.appendChild(syllabusElement);
+                  });
+               } else if (data.message) {
+                  syllabusContainer.innerHTML += `<p>${data.message}</p>`;
+               } else {
+                  syllabusContainer.innerHTML += '<p>No syllabuses available.</p>';
+               }
+            })
+            .catch(error => {
+               console.error('Error:', error);
+               const syllabusContainer = document.getElementById('syllabusContainer');
+               console.log(syllabusContainer);
+               if (syllabusContainer) {
+                  syllabusContainer.innerHTML = `<p>Error loading syllabus information: ${error.message}</p>`;
+               }
+            });
+      }
+      // Handles the reject action for a project request
+      function rejectRequest(requestId) {
+         fetch(`/reject_project_request/${requestId}`, {
+            method: 'POST',
+            credentials: 'include' // Include session cookies
+         })
+            .then(response => response.json())
+            .then(data => {
+               alert(data.message || 'Request rejected successfully');
+               loadProjectRequests(); // Refresh the list of project requests
+            })
+            .catch(error => {
+               console.error('Error:', error);
+               alert('Error rejecting request: ' + error.message);
+            });
+      };
+      // Binds the loading of project requests to the NotificationModal's display action
+      document.querySelector('[data-bs-toggle="modal"][data-bs-target="#NotificationModal"]').addEventListener('click', loadProjectRequests);
+   </script>
+
+
+</body>
+
+</html>

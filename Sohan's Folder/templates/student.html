@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Student Dashboard</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+   <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="/static/css/newcss.css">
+</head>
+
+<body>
+   <div class="wrapper">
+      <aside id="sidebar" class="js-sidebar">
+         <div class="h-100">
+            <div class="sidebar-logo">
+               <a href="#">Enser</a>
+            </div>
+            <ul class="sidebar-nav">
+               <li class="sidebar-header">Elements</li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="dashboard">
+                     <i class="fa-solid fa-list pe-2"></i> Dashboard
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="projects">
+                     <i class="fa-solid fa-file-lines pe-2"></i> Projects Available
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="professor">
+                     <i class="fa-regular fa-user pe-2"></i> Professor
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="Syllabus">
+                     <i class="fa-regular fa-user pe-2"></i> Syllabus
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="/logout" class="button" id="logoutLink">
+                     <i class="fa-solid fa-right-from-bracket pe-2"></i> Logout
+                  </a>
+               </li>
+            </ul>
+         </div>
+      </aside>
+      <div class="main">
+         <nav class="navbar navbar-expand px-3 border-bottom">
+            <button class="btn" id="sidebar-toggle" type="button">
+               <span class="navbar-toggler-icon"></span>
+            </button>
+         </nav>
+         <main class="content px-3 py-2">
+            <div class="container-fluid">
+               <div id="dashboard" class="content-section">
+                  <h4>Student Dashboard</h4>
+                  <p>Welcome to the Student Dashboard.</p>
+                  <!-- Your dynamic content and description -->
+               </div>
+               <div id="projects" class="content-section" style="display:none; background-color: rgb(63, 73, 76)">
+                  <div class="container mt-4">
+                     <h2>Available Projects</h2>
+                     
+                         <div class="card-body">
+                             <h5 class="card-title">Select which field you want the project from:</h5>
+                             <select id="projectDepartment" name="projectDepartment" class="form-control" required>
+                                 <option value="">Please select a department</option>
+                                 <option value="civil">Civil Engineering</option>
+                                 <option value="mechanical">Mechanical Engineering</option>
+                                 <option value="electrical">Electrical Engineering</option>
+                                 <option value="computer">Computer Engineering</option>
+                                 <option value="chemical">Chemical Engineering</option>
+                                 <option value="aerospace">Aerospace Engineering</option>
+                                 <option value="nuclear">Nuclear Engineering</option>
+                                 <option value="biomedical">Biomedical Engineering</option>
+                                 <option value="industrial">Industrial Engineering</option>
+                                 <option value="environmental">Environmental Engineering</option>
+                             </select>
+                             <button type="button" class="btn btn-primary mt-3">Search</button>
+                         </div>
+                     </div>
+                 </div>
+                 
+               </div>
+               <div id="professor" class="content-section" style="display:none;">
+                  <div class="card">
+                     <div class="container">
+                        <h2>Professors</h2>
+                        <p class="title">Choose your own Professor.</p>
+                        <!-- Professor information -->
+                     </div>
+                  </div>
+               </div>
+               <div id="syllabus" class="content-section" style="display:none;">
+                  <div class="card">
+                     <div class="container">
+                        <h2>Project Syllabus</h2>
+                        <p class="title">Project Syllabus.</p>
+                        <!-- Professor information -->
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+         </main>
+         <a href="#" class="theme-toggle">
+            <i class="fa-regular fa-moon"></i>
+            <i class="fa-regular fa-sun"></i>
+         </a>
+      </div>
+   </div>
+
+   <!-- Projects Modal -->
+   <div class="modal fade" id="projectsModal" tabindex="-1" aria-labelledby="projectsModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="projectsModalLabel">Uploaded Projects</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <!-- Projects will be loaded here dynamically -->
+               <div class="list-group" id="projectsList">
+                  <!-- Dynamically loaded project items will go here -->
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   </div>
+
+   <!-- Syllabus Modal -->
+   <div class="modal fade" id="syllabusModal" tabindex="-1" aria-labelledby="syllabusModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="syllabusModalLabel">Syllabus Details</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" id="syllabusContent">
+               <!-- Syllabus content will be loaded here -->
+            </div>
+         </div>
+      </div>
+   </div>
+
+
+
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="/static/js/script.js"></script>
+
+
+   <script>
+      // Handles clicks on sidebar links to display the corresponding content section
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+         link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
+
+            // Show the targeted content section
+            if (targetElement) {
+               targetElement.style.display = 'block';
+            }
+         });
+      });
+
+      // Fetch and display the projects when the "View Projects" button is clicked
+      document.querySelector('[data-bs-target="#projectsModal"]').addEventListener('click', function () {
+         fetch('/get_projects')
+            .then(response => response.json())
+            .then(data => {
+               const projectsList = document.getElementById('projectsList');
+               projectsList.innerHTML = ''; // Clear existing projects
+               data.projects.forEach(project => {
+                  const projectItem = document.createElement('div');
+                  projectItem.classList.add('list-group-item', 'list-group-item-action');
+                  projectItem.innerHTML = `
+<div class="d-flex w-100 justify-content-between">
+<h5 class="mb-1">${project.title}</h5>
+</div>
+<p class="mb-1">${project.description}</p>
+<button class="btn btn-primary mt-2" onclick="requestProject(${project.project_id})">Request to do this project</button>
+<button class="btn btn-danger mt-2 ms-2" onclick="deleteProject(${project.project_id})">Delete Project</button>
+`;
+                  projectsList.appendChild(projectItem);
+               });
+            })
+            .catch(error => console.error('Error loading projects:', error));
+      });
+
+      // Function to request a project
+      function requestProject(projectId) {
+         fetch(`/request_project/${projectId}`, {
+            method: 'POST',
+            credentials: 'include' // Include session cookies
+         })
+            .then(response => response.json())
+            .then(data => {
+               alert(data.message || 'Project request submitted successfully');
+               // Refresh or update the UI if needed
+            })
+            .catch(error => {
+               console.error('Error:', error);
+               alert('Error requesting project: ' + error.message);
+            });
+      }
+
+      // Function to delete a project
+      function deleteProject(projectId) {
+         fetch(`/delete_project/${projectId}`, {
+            method: 'POST',
+            headers: {
+               'Content-Type': 'application/json',
+               'Accept': 'application/json'
+            },
+            credentials: 'include' // Include session cookies
+         })
+            .then(response => response.json())
+            .then(data => {
+               alert('Project deleted successfully');
+               // Refresh or update the UI if needed
+            })
+            .catch(error => {
+               console.error('Error:', error);
+               alert('Error deleting project: ' + error.message);
+            });
+      }
+
+
+      function loadAndDisplaySyllabus() {
+         fetch(`/get_syllabus/${projectId}`) // Ensure you have the project ID available
+            .then(response => response.json())
+            .then(data => {
+               if (data.syllabus_content) {
+                  // Display the syllabus content in the UI
+                  alert(data.syllabus_content); // Modify this to display in your UI appropriately
+               } else {
+                  alert('Syllabus not available.');
+               }
+            })
+            .catch(error => {
+               console.error('Error:', error);
+               alert('Failed to load syllabus.');
+            });
+      }
+
+
+
+      // Function to load and display the syllabus for accepted projects
+      function loadSyllabus() {
+         // Fetch the syllabus from the server
+         fetch('/get_syllabus') // You need to replace this endpoint with the correct one that includes the project ID
+            .then(response => response.json())
+            .then(data => {
+               // Check if the syllabus data is available
+               if (data.syllabus_content) {
+                  // Display the syllabus content in the UI
+                  const syllabusModalBody = document.getElementById('syllabusModal').querySelector('.modal-body');
+                  syllabusModalBody.innerHTML = data.syllabus_content;
+               } else {
+                  // Handle the case where no syllabus is available
+                  document.getElementById('syllabusModal').querySelector('.modal-body').innerHTML = 'No syllabus available.';
+               }
+            })
+            .catch(error => {
+               // Handle errors in fetching the syllabus
+               console.error('Error fetching syllabus:', error);
+               document.getElementById('syllabusModal').querySelector('.modal-body').innerHTML = 'Failed to load syllabus.';
+            });
+      }
+
+      // Bind the loadSyllabus function to the dashboard view button
+      document.querySelector('[data-bs-target="#syllabusModal"]').addEventListener('click', loadSyllabus);
+      document.querySelector('[data-target="dashboard"]').addEventListener('click', loadAndDisplaySyllabus);
+
+   </script>
+
+
+</body>
+
+</html>
