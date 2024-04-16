@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Student Dashboard</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+   <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="/static/css/newcss.css">
+</head>
+
+<body>
+   <div class="wrapper">
+      <aside id="sidebar" class="js-sidebar">
+         <div class="h-100">
+            <div class="sidebar-logo">
+               <a href="#">Enser</a>
+            </div>
+            <ul class="sidebar-nav">
+               <li class="sidebar-header">Elements</li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="dashboard">
+                     <i class="fa-solid fa-list pe-2"></i> Dashboard
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="projects">
+                     <i class="fa-solid fa-file-lines pe-2"></i> Projects Available
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="professor">
+                     <i class="fa-regular fa-user pe-2"></i> Professor
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="syllabus">
+                     <i class="fa-regular fa-user pe-2"></i> Syllabus
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="/logout" class="button" id="logoutLink">
+                     <i class="fa-solid fa-right-from-bracket pe-2"></i> Logout
+                  </a>
+               </li>
+            </ul>
+         </div>
+      </aside>
+      <div class="main">
+         <nav class="navbar navbar-expand px-3 border-bottom">
+            <button class="btn" id="sidebar-toggle" type="button">
+               <span class="navbar-toggler-icon"></span>
+            </button>
+         </nav>
+         <main class="content px-3 py-2">
+            <div class="container-fluid">
+               <div id="dashboard" class="content-section">
+                  <h4>Student Dashboard</h4>
+                  <p>Welcome to the Student Dashboard.</p>
+                  <!-- Your dynamic content and description -->
+               </div>
+               <div id="projects" class="content-section" style="display:block; background-color: rgb(63, 73, 76)">
+                  <div class="container mt-4">
+                     <h2>Available Projects</h2>
+                     <div class="card-body">
+                        <h5 class="card-title">Select which field you want the project from:</h5>
+                        <select id="projectDepartment" name="projectDepartment" class="form-control" required>
+                           <option value="">Please select a department</option>
+                           <option value="Civil Engineering">Civil Engineering</option>
+                           <option value="Mechanical Engineering">Mechanical Engineering</option>
+                           <option value="Electrical Engineering">Electrical Engineering</option>
+                           <option value="Computer Engineering">Computer Engineering</option>
+                           <option value="Chemical Engineering">Chemical Engineering</option>
+                           <option value="Aerospace Engineering">Aerospace Engineering</option>
+                           <option value="Nuclear Engineering">Nuclear Engineering</option>
+                           <option value="Biomedical Engineering">Biomedical Engineering</option>
+                           <option value="Industrial Engineering">Industrial Engineering</option>
+                           <option value="Environmental Engineering">Environmental Engineering</option>
+                        </select>
+                        <button type="button" class="btn btn-primary mt-3"
+                           onclick="fetchProjectDetails()">Search</button>
+                     </div>
+                     <!-- Project details section -->
+                     <div id="projectDetails" class="project-details" style="display:none;">
+                        <h3 id="projectTitle"></h3>
+                        <p id="projectDescription"></p>
+                     </div>
+                  </div>
+               </div>
+
+
+            </div>
+            <div id="professor" class="content-section" style="display:none;">
+               <div class="card">
+                  <div class="container">
+                     <h2>Professors</h2>
+                     <p class="title">Choose your own Professor.</p>
+                     <!-- Professor information -->
+                  </div>
+               </div>
+            </div>
+            <div id="syllabus" class="content-section" style="display:none;">
+               <div class="card">
+                  <div class="container">
+                     <h2>Project Syllabus</h2>
+                     <p class="title">Project Syllabus.</p>
+                     <!-- Sylabuss information -->
+                  </div>
+               </div>
+            </div>
+
+      </div>
+      </main>
+      <a href="#" class="theme-toggle">
+         <i class="fa-regular fa-moon"></i>
+         <i class="fa-regular fa-sun"></i>
+      </a>
+   </div>
+   </div>
+
+   
+
+   
+
+
+
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="/static/js/script.js"></script>
+
+
+   <script>
+      // Handles clicks on sidebar links to display the corresponding content section
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+         link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
+
+            // Show the targeted content section
+            if (targetElement) {
+               targetElement.style.display = 'block';
+            }
+         });
+      });
+
+
+      function fetchProjectDetails() {
+    var department = document.getElementById("projectDepartment").value;
+    console.log("Selected Department:", department);
+
+    if (!department) {
+        alert("Please select a department");
+        return;
+    }
+    fetch(`/api/projects/${department}`)
+        .then(response => response.json())
+        .then(projects => {
+            if (projects.length > 0) {
+                const projectDetails = projects.map(project =>
+                    `<div class="card mt-3">
+                        <div class="card-body">
+                            <h5 class="card-title">${project.title}</h5>
+                            <p class="card-text">${project.description}</p>
+                            <p class="card-text"><small class="text-muted">Project ID: ${project.project_id}</small></p>
+                            <div class="form-group">
+                                <label for="selectProfessor${project.project_id}">Select Professor</label>
+                                <select class="form-control" id="selectProfessor${project.project_id}">
+                                    <option value="" disabled selected>Select Professor</option>
+                                    ${project.professors.map(prof => `<option value="${prof.id}">${prof.name}</option>`).join('')}
+                                </select>
+                            </div>
+                            <button type="button" class="btn btn-primary" onclick="applyToProject(${project.project_id})">Apply</button>
+                        </div>
+                    </div>`
+                ).join("");
+                document.getElementById("projectDetails").innerHTML = projectDetails;
+                document.getElementById("projectDetails").style.display = "block";
+            } else {
+                document.getElementById("projectDetails").innerHTML = "<p>No projects found for this department.</p>";
+                document.getElementById("projectDetails").style.display = "block";
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching project details:', error);
+            document.getElementById("projectDetails").innerHTML = "<p>Error fetching project details.</p>";
+            document.getElementById("projectDetails").style.display = "block";
+        });
+}
+
+
+
+function applyToProject(projectId) {
+    console.log("Apply to project ID:", projectId);
+    
+    // Collect the selected professor
+    var professorSelect = document.getElementById(`selectProfessor${projectId}`);
+    var professorId = professorSelect.value;
+
+    if (!professorId) {
+        alert("Please select a professor before applying.");
+        return;
+    }
+
+    // Send the data to the server
+    fetch(`/api/apply/${projectId}`, {
+    method: 'POST',
+    credentials: 'include',  // Important for session cookies to be included in requests
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        projectId: projectId,
+        professorId: professorId,
+    })
+})
+
+
+    .then(response => response.json())
+    .then(data => {
+        console.log('Success:', data);
+        alert('Application submitted successfully!');
+    })
+    .catch((error) => {
+        console.error('Error:', error);
+        alert('Error submitting application.');
+    });
+}
+
+
+
+   </script>
+
+
+</body>
+
+</html>
