@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Professor Dashboard</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+   <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="/static/css/newcss.css">
+</head>
+
+<body>
+   <div class="wrapper">
+      <aside id="sidebar" class="js-sidebar">
+         <div class="h-100">
+            <div class="sidebar-logo">
+               <a href="#">Enser</a>
+            </div>
+            <ul class="sidebar-nav">
+               <li class="sidebar-header">Elements</li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="dashboard">
+                     <i class="fa-solid fa-list pe-2"></i> Dashboard
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="Notification">
+                     <i class="fa-solid fa-file-lines pe-2"></i> Notification
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="Syllabus">
+                     <i class="fa-regular fa-user pe-2"></i> Syllabus
+                  </a>
+
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="Submissionapproval">
+                     <i class="fa-regular fa-user pe-2"></i> Submission
+                     approval
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="/logout" class="button" id="logoutLink">
+                     <i class="fa-solid fa-right-from-bracket pe-2"></i>
+                     Logout
+                  </a>
+               </li>
+            </ul>
+         </div>
+      </aside>
+      <div class="main">
+         <nav class="navbar navbar-expand-lg px-3 border-bottom">
+            <button class="btn" id="sidebar-toggle" type="button">
+               <span class="navbar-toggler-icon"></span>
+            </button>
+         </nav>
+         <main class="content px-3 py-2">
+            <div class="container-fluid">
+               <div id="dashboard" class="content-section">
+                  <h4>Professor Dashboard</h4>
+                  <p>Welcome to the Professor Dashboard.</p>
+               </div>
+               <div id="Notification" class="content-section" style="display:none;">
+                  <div class="card">
+                     <div class="container">
+                        <h2>Notifications</h2>
+                        <p class="title">See the students requests for
+                           project.</p>
+                        <table class="table">
+                           <thead>
+                              <tr>
+                                 <th>Student Name</th>
+                                 <th>Student ID</th>
+                                 <th>Project Title</th>
+                                 <th>Description</th>
+                                 <th>Actions</th>
+                              </tr>
+                           </thead>
+                           <tbody id="notificationBody">
+                              <!-- Notifications will be loaded here -->
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+               <div id="Syllabus" class="content-section" style="display:none;">
+                  <div class="card">
+                     <div class="container">
+                        <h2>Review the syllabus Here</h2>
+                        <p class="title"> You can view and edit the syllabus details here </p>
+                        <table class="table">
+                           <thead>
+                              <tr>
+                                 <th>Student First Name</th>
+                                 <th>Student Last Name</th>
+                                 <th>Student ID</th>
+                                 <th>Project Title</th>
+                                 <th>Description</th>
+                                 <th>Actions</th>
+                              </tr>
+                           </thead>
+                           <tbody id="syllabusBody">
+                              <!-- Syllabus entries will be loaded here -->
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+                <!-- Modal for Editing Syllabus -->
+                <div class="modal fade" id="syllabusModal" tabindex="-1" aria-labelledby="syllabusModalLabel" aria-hidden="true">
+                  <div class="modal-dialog modal-fullscreen">
+                      <div class="modal-content">
+                          <div class="modal-header">
+                              <h5 class="modal-title" id="syllabusModalLabel">Syllabus Details</h5>
+                              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                              <textarea id="syllabusText" class="form-control" rows="10"></textarea>
+                          </div>
+                          <div class="modal-footer">
+                              <button type="button" onclick="editSyllabus()" class="btn btn-primary">Edit</button>
+                              <button type="button" onclick="saveSyllabus()" class="btn btn-primary">Save</button>
+                              <button type="button" onclick="sendSyllabus()" class="btn btn-success">Send</button>
+                          </div>
+                      </div>
+                  </div>
+                </div>
+                            
+               
+
+               <div id="Submissionapproval" class="content-section" style="display:none;">
+                  <div class="card">
+                     <div class="container">
+                        <h2>Review the project Here</h2>
+                        <p class="title"> You can see the accepted project
+                        </p>
+
+                     </div>
+
+                     <div id="Submissionapproval" class="content-section" style="display:none;">
+                        <div class="card">
+                           <div class="container">
+                              <h2>Review the project Here</h2>
+                              <p class="title"> You can see the accepted
+                                 project
+                              </p>
+
+                           </div>
+                           <div id="Submissionapproval"></div>
+                           <!-- Dynamically loaded projects will be inserted here by JavaScript -->
+                        </div>
+                     </div>
+                  </div>
+
+         </main>
+         <a href="#" class="theme-toggle">
+            <i class="fa-regular fa-moon"></i>
+            <i class="fa-regular fa-sun"></i>
+         </a>
+      </div>
+   </div>
+
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="/static/js/script.js"></script>
+
+   <script>
+      // Handles the click event on sidebar links to display corresponding content sections
+      document.querySelectorAll('.sidebar-link').forEach(link => {
+         link.addEventListener('click', function (e) {
+            e.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const targetElement = document.getElementById(targetId);
+            document.querySelectorAll('.content-section').forEach(el => el.style.display = 'none');
+            if (targetElement) {
+               targetElement.style.display = 'block';
+            }
+         });
+      });
+
+      document.querySelector('.sidebar-link[data-target="Notification"]').addEventListener('click', function () {
+         fetch('/api/notifications')
+            .then(response => response.json())
+            .then(data => {
+               const tableBody = document.getElementById('notificationBody');
+               tableBody.innerHTML = ''; // Clear previous entries
+               data.forEach(notif => {
+                  const row = `<tr id="row-${notif.submission_id}">
+                <td>${notif.student_name}</td>t
+                <td>${notif.student_id}</td>
+                <td>${notif.project_title}</td>
+                <td>${notif.project_description}</td>
+                <td>
+                  <button onclick="handleAction(${notif.submission_id}, 'accept')" class="btn btn-success">
+                  <i class="fa fa-check"></i> Accept and Generate Syllabus
+                  </button>
+
+
+                  <button onclick="handleAction(${notif.submission_id}, 'reject')" class="btn btn-danger">
+                  <i class="fa fa-times"></i> Reject
+                  </button>
+
+                </td>
+            </tr>`;
+                  tableBody.innerHTML += row;
+               });
+            })
+            .catch(error => {
+               console.error('Error loading notifications:', error);
+               document.getElementById("notificationBody").innerHTML = `<tr><td colspan="5">Error loading notifications.</td></tr>`;
+            });
+      });
+
+      
+   //////////////////////////////////////////////////////////
+
+   document.querySelector('.sidebar-link[data-target="Syllabus"]').addEventListener('click', function () {
+    fetch('/api/accepted_notifications')
+       .then(response => {
+           if (!response.ok) {
+               throw new Error('Network response was not ok ' + response.statusText);
+           }
+           return response.json();
+       })
+       .then(data => {
+          const tableBody = document.getElementById('syllabusBody');
+          tableBody.innerHTML = ''; // Clear previous entries
+          if (Array.isArray(data)) { // Ensure data is an array
+              data.forEach(notif => {
+                  const row = `<tr id="row-${notif.notification_id}">
+                      <td>${notif.student_first_name}</td>
+                      <td>${notif.student_last_name}</td>
+                      <td>${notif.student_id}</td>
+                      <td>${notif.project_title}</td>
+                      <td>${notif.project_description}</td>
+                      <td>
+                          <button onclick="previewSyllabus(${notif.notification_id})" class="btn btn-info">Preview</button>
+                      </td>
+                  </tr>`;
+                  tableBody.innerHTML += row;
+              });
+          } else {
+              console.error('Data received is not an array:', data);
+          }
+       })
+       .catch(error => {
+          console.error('Error loading syllabus:', error);
+          document.getElementById("syllabusBody").innerHTML = `<tr><td colspan="6">Error loading data: ${error.message}</td></tr>`;
+       });
+});
+
+
+
+
+function previewSyllabus(notificationId) {
+    var syllabusModal = new bootstrap.Modal(document.getElementById('syllabusModal'));
+    syllabusModal.show();
+
+    fetch(`/api/syllabus/${notificationId}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        })
+        .then(data => {
+            // Corrected to use 'auto_syllabus' as per the API response
+            document.getElementById('syllabusText').value = data.auto_syllabus;
+        })
+        .catch(error => {
+            console.error('Failed to load syllabus:', error);
+            document.getElementById('syllabusText').value = 'Failed to load syllabus data.';
+        });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   
+  
+   
+        
+  
+  
+  
+  
+  
+  
+        
+  
+  
+  
+        //////////////////////////////////////////////////
+        function handleAction(notificationId, action) {
+      if (action === 'accept') {
+          // First action: Accept the notification
+          fetch(`/api/accept_notification/${notificationId}`, { method: 'POST' })
+              .then(response => response.json())
+              .then(data => {
+                  console.log('Notification accepted successfully:', data);
+                  // Second action: Generate syllabus
+                  generateSyllabus(notificationId);
+              })
+              .catch((error) => {
+                  console.error('Error:', error);
+                  alert('Error accepting notification.');
+              });
+      }
+      // Add logic for other actions, like 'reject', if needed
+  }
+  
+//   function generateSyllabus(notificationId) {
+//       // Placeholder for the actual API call to generate a syllabus
+//       fetch(`/api/generate_syllabus/${notificationId}`, { method: 'POST' })
+//           .then(response => response.json())
+//           .then(data => {
+//               alert('Syllabus generated successfully.');
+//               // Optionally, update the UI to reflect the new syllabus
+//           })
+//           .catch(error => {
+//               console.error('Error generating syllabus:', error);
+//               alert('Error generating syllabus.');
+//           });
+//   }
+  
+        ////////////////////////////////////////////////////
+  
+  ///////////////////////////////////////////////////////////
+  ///////////////////////////////////////////////////
+  
+  function editSyllabus() {
+    var syllabusText = document.getElementById('syllabusText');
+    syllabusText.removeAttribute('disabled'); // Enable editing
+    syllabusText.focus(); // Optionally set focus to the textarea
+}
+
+  
+  
+  
+  
+  
+   
+      
+
+   </script>
+
+</body>
+
+</html>
