@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Community Dashboard</title>
+   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css">
+   <script src="https://kit.fontawesome.com/ae360af17e.js" crossorigin="anonymous"></script>
+   <link rel="stylesheet" href="/static/css/style.css">
+</head>
+
+<body>
+   <div class="wrapper">
+      <aside id="sidebar" class="js-sidebar">
+         <div class="h-100">
+            <div class="sidebar-logo">
+               <a href="#">Enser</a>
+            </div>
+            <ul class="sidebar-nav">
+               <li class="sidebar-header">Elements</li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="dashboard">
+                     <i class="fa-solid fa-list pe-2"></i> Dashboard
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="projects">
+                     <i class="fa-solid fa-file-lines pe-2"></i> Upload
+                     Projects
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="uploadedProjects">
+                     <i class="fa-solid fa-cloud-upload pe-2"></i> Uploaded
+                     Projects
+                  </a>
+               </li>
+               <li class="sidebar-item">
+                  <a href="#" class="sidebar-link" data-target="professor">
+                     <i class="fa-regular fa-user pe-2"></i> Feedback
+                  </a>
+               </li>
+               <a href="/logout" class="button" id="logoutLink">
+                  <i class="fa-solid fa-right-from-bracket pe-2"></i> Logout
+               </a>
+            </ul>
+         </div>
+      </aside>
+      <div class="main">
+         <nav class="navbar navbar-expand px-3 border-bottom">
+            <button class="btn" id="sidebar-toggle" type="button">
+               <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="ms-auto">
+               <span class="navbar-text">
+                  <i class="fa-solid fa-user"></i> Welcome, <span id="userFirstName">{{ first_name }}</span> <span
+                     id="userLastName">{{ last_name }}</span>
+               </span>
+            </div>
+         </nav>
+         <main class="content px-3 py-2">
+            <div class="container-fluid">
+               <div id="dashboard" class="content-section">
+                  <h4>Community Dashboard</h4>
+                  <p>Welcome to the Community Dashboard.</p>
+               </div>
+               <div id="projects" class="content-section" style="display:none; background-color: lightblue">
+                  <div class="card">
+                     <div class="container">
+                        <h2>Upload Projects</h2>
+                        <p class="title">Upload your latest projects.</p>
+                        <form id="uploadProjectForm">
+                           <div class="form-group">
+                              <label for="projectDepartment">Select Project
+                                 Department:</label>
+                              <select id="projectDepartment" name="projectDepartment" class="form-control" required>
+                                 <option value>Please select a
+                                    department</option>
+                                 <option value="Civil Engineering">Civil
+                                    Engineering</option>
+                                 <option value="Mechanical Engineering">Mechanical
+                                    Engineering</option>
+                                 <option value="Electrical Engineering">Electrical
+                                    Engineering</option>
+                                 <option value="Computer Engineering">Computer
+                                    Engineering</option>
+                                 <option value="Chemical Engineering">Chemical
+                                    Engineering</option>
+                                 <option value="Aerospace Engineering">Aerospace
+                                    Engineering</option>
+                                 <option value="Nuclear Engineering">Nuclear
+                                    Engineering</option>
+                                 <option value="Biomedical Engineering">Biomedical
+                                    Engineering</option>
+                                 <option value="Industrial Engineering">Industrial
+                                    Engineering</option>
+                                 <option value="Environmental Engineering">Environmental
+                                    Engineering</option>
+                              </select>
+                           </div>
+
+                           <div class="form-group">
+                              <label for="projectTitle">Project
+                                 Title:</label>
+                              <input type="text" id="projectTitle" name="projectTitle" class="form-control"
+                                 placeholder="Enter project title" required oninput="this.style.fontWeight = 'bold'">
+                           </div>
+
+                           <div class="form-group">
+                              <label for="projectDescription">Project
+                                 Description:</label>
+                              <textarea id="projectDescription" name="projectDescription" rows="15" class="form-control"
+                                 placeholder="Describe your project (up to 500 words)" required
+                                 oninput="limitWords(this)"></textarea>
+                           </div>
+                           <p><button type="submit" class="button"
+                                 style="background-color: blue; color: white;">Upload</button></p>
+                        </form>
+                     </div>
+                  </div>
+               </div>
+               <div id="uploadedProjects" class="content-section" style="background-color: lightblue; display: block;">
+              
+                  <div class="card">
+                     <div class="container">
+                        <h2>Uploaded Projects</h2>
+                        <p class="title">View projects you've uploaded.</p>
+                     </div>
+                     <div id="uploadedProjectsList"></div>
+                        <!-- Dynamically loaded projects will be inserted here by JavaScript -->
+                    </div>
+                    
+                  </div>
+               </div>
+               <div id="professor" class="content-section" style="display:none;">
+                  <div class="card">
+                     <div class="container">
+                        <h2>Feedback</h2>
+                        <!-- Feedback display area could be dynamically loaded here -->
+                        <p class="title">Provide feedback for projects.</p>
+                     </div>
+                     <div id="Feedback"></div>
+                        <!-- Dynamically loaded projects will be inserted here by JavaScript -->
+                    </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </main>
+         <a href="#" class="theme-toggle">
+            <i class="fa-regular fa-moon"></i>
+            <i class="fa-regular fa-sun"></i>
+         </a>
+      </div>
+   </div>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="/static/js/script.js"></script>
+
+   <script>
+      document.addEventListener('DOMContentLoaded', function() {
+    // Consolidate sidebar navigation handling
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const targetId = this.getAttribute('data-target');
+            const sections = document.querySelectorAll('.content-section');
+            sections.forEach(section => section.style.display = 'none');
+
+            const targetElement = document.getElementById(targetId);
+            if (targetElement) {
+                targetElement.style.display = 'block';
+            }
+
+            // Special handling for uploaded projects
+            if (targetId === 'uploadedProjects') {
+                fetchUploadedProjects(); // Ensure this function is correctly defined
+            }
+        });
+    });
+
+    // Handle project upload form submission
+    const uploadForm = document.getElementById("uploadProjectForm");
+    if(uploadForm){
+        uploadForm.addEventListener("submit", function(e) {
+            e.preventDefault();
+            const formData = {
+                project_department: document.getElementById("projectDepartment").value,
+                title: document.getElementById("projectTitle").value,
+                description: document.getElementById("projectDescription").value
+            };
+
+            fetch('/upload_project', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            }).then(response => {
+                if (!response.ok) throw new Error('Failed to upload project');
+                return response.json();
+            }).then(data => {
+                alert(data.message);
+                // Clear the form here if needed
+            }).catch(error => {
+                console.error('Error:', error);
+                alert('Error uploading project: ' + error.message);
+            });
+        });
+    }
+});
+
+
+function fetchUploadedProjects() {
+    fetch('/get_uploaded_projects')
+    .then(response => {
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        return response.json();
+    })
+    .then(data => {
+        console.log(data);  // Check the data here
+        const projectsList = document.getElementById('uploadedProjectsList');
+        projectsList.innerHTML = '';  // Clear existing content
+
+        if (data.length === 0) {
+            projectsList.textContent = 'No projects available.';
+            return;
+        }
+
+        const table = createProjectsTable(data);
+        projectsList.appendChild(table);
+    })
+    .catch(error => {
+        console.error('Error fetching projects:', error);
+        alert('Failed to load projects: ' + error.message);
+    });
+}
+
+
+
+
+function createProjectsTable(projects) {
+    const table = document.createElement('table');
+    table.className = 'table table-striped';  // Adding Bootstrap table classes for styling
+
+    const thead = document.createElement('thead');
+    const tbody = document.createElement('tbody');
+
+    // Table header
+    const headerRow = document.createElement('tr');
+    ['ID', 'Title', 'Department', 'Description'].forEach(text => {
+        const th = document.createElement('th');
+        th.textContent = text;
+        headerRow.appendChild(th);
+    });
+    thead.appendChild(headerRow);
+
+    // Table body
+    projects.forEach(project => {
+        const tr = document.createElement('tr');
+        ['project_id', 'title', 'department', 'description'].forEach(key => {  // Corrected key for department
+            const td = document.createElement('td');
+            td.textContent = project[key];
+            tr.appendChild(td);
+        });
+        tbody.appendChild(tr);
+    });
+
+    table.appendChild(thead);
+    table.appendChild(tbody);
+    return table;
+}
+
+
+   </script>
+
+</body>
+
+</html>
